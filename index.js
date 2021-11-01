@@ -5,7 +5,7 @@ require('dotenv').config();
 const ObjectId = require('mongodb').ObjectId;
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 // middleware
 app.use(cors());
@@ -32,6 +32,14 @@ async function run() {
             res.send(services);
         })
 
+        // ORDERS GET API
+        app.get('/services/:email', async(req, res) =>{
+          console.log(req.params.email)
+          const cursor = servicesCollection.find({email:req.params.email});
+          const services = await cursor.toArray();
+          res.send(services);
+      })
+
         // GET Single Service
         app.get('/services/:id', async (req, res) => {
             const id = req.params.id;
@@ -54,8 +62,8 @@ async function run() {
         // ORDERS POST API 
         app.post('/services', async(req, res) => {
             const orders = req.body;
-            console.log('hit the post api', orders);
-            
+            console.log('hit the order post api', orders);
+
             const result = await ordersCollection.insertOne(orders);
             console.log(result);
             res.json(result)
