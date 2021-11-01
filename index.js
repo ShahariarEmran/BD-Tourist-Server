@@ -23,6 +23,7 @@ async function run() {
         // console.log('connected to database');
         const database = client.db("BdTourist");
         const servicesCollection = database.collection("services");
+        const ordersCollection = database.collection("orders");
 
         // GET API OR LOAD ALL DATA
         app.get('/services', async(req, res) =>{
@@ -46,6 +47,16 @@ async function run() {
             console.log('hit the post api', service);
 
             const result = await servicesCollection.insertOne(service);
+            console.log(result);
+            res.json(result)
+        });
+
+        // ORDERS POST API 
+        app.post('/services', async(req, res) => {
+            const orders = req.body;
+            console.log('hit the post api', orders);
+            
+            const result = await ordersCollection.insertOne(orders);
             console.log(result);
             res.json(result)
         });
