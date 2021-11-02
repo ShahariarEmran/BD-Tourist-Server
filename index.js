@@ -35,19 +35,29 @@ async function run() {
         // ORDERS GET API
         app.get('/services/:email', async(req, res) =>{
           console.log(req.params.email)
-          const cursor = servicesCollection.find({email:req.params.email});
+          const cursor = ordersCollection.find({email:req.params.email});
           const services = await cursor.toArray();
+          console.log(services);
           res.send(services);
       })
 
         // GET Single Service
-        app.get('/services/:id', async (req, res) => {
-            const id = req.params.id;
-            console.log('getting specific service', id);
-            const query = { _id: ObjectId(id) };
-            const service = await servicesCollection.findOne(query);
-            res.json(service);
-        })
+        // app.get('/services/:id', async (req, res) => {
+        //     const id = req.params.id;
+        //     console.log('getting specific service', id);
+        //     const query = { _id: id };
+        //     const service = await servicesCollection.find(query);
+        //     res.json(service);
+        // })
+
+        // GET Single Service
+        app.get('/service/:id', async (req, res) => {
+          const id = req.params.id;
+          const query = { _id: ObjectId(id) };
+          const user = await servicesCollection.findOne(query);
+          // console.log('load user with id: ', id);
+          res.send(user);
+      })
 
         // POST API 
         app.post('/services', async(req, res) => {
@@ -60,7 +70,7 @@ async function run() {
         });
 
         // ORDERS POST API 
-        app.post('/services', async(req, res) => {
+        app.post('/orders', async(req, res) => {
             const orders = req.body;
             console.log('hit the order post api', orders);
 
@@ -73,7 +83,7 @@ async function run() {
         app.delete('/services/:id', async (req, res) => {
           const id = req.params.id;
           const query = { _id: ObjectId(id) };
-          const result = await servicesCollection.deleteOne(query);
+          const result = await ordersCollection.deleteOne(query);
           res.json(result);
       })
 
