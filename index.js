@@ -86,11 +86,13 @@ async function run() {
           const result = await ordersCollection.deleteOne(query);
           res.json(result);
       })
-        // DELETE MANAGE ORDER API
-        app.delete('/services/:id', async (req, res) => {
+        // DELETE MANAGE SERVICE API
+        app.delete('/delete-services/:id', async (req, res) => {
           const id = req.params.id;
+          console.log(id);
           const query = { _id: ObjectId(id) };
           const result = await servicesCollection.deleteOne(query);
+          console.log(result);
           res.json(result);
       })
 
