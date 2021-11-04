@@ -32,16 +32,8 @@ async function run() {
             res.send(services);
         })
 
-        // ORDERS GET API
-        app.get('/order/:email', async(req, res) =>{
-          console.log(req.params.email)
-          const cursor = ordersCollection.find({email:req.params.email});
-          const services = await cursor.toArray();
-          console.log(services);
-          res.send(services);
-      })
 
-        // GET Single Service
+        // GET Single Service (for booking)
         app.get('/service/:id', async (req, res) => {
           const id = req.params.id;
           const query = { _id: ObjectId(id) };
@@ -59,6 +51,15 @@ async function run() {
             console.log(result);
             res.json(result)
         });
+
+        // ORDERS GET API
+        app.get('/orders/:email', async(req, res) =>{
+          console.log(req.params.email)
+          const cursor = ordersCollection.find({email:req.params.email});
+          const services = await cursor.toArray();
+          console.log(services);
+          res.send(services);
+      })
 
         // ORDERS POST API 
         app.post('/orders', async(req, res) => {
